@@ -5,30 +5,32 @@
 
 class TicTacToe: 
     """A custom object for the game of Tic Tac Toe."""
-    board: list[list[int]] 
+    board: list[list[str]] 
     current_player: int
     player1: tuple[str, int]
     player2: tuple[str, int]
 
     def __init__(self, player1name: str, player2name: str) -> None: 
         """Initializes the game of Tic Tac Toe."""
-        self.board = [[0, 0, 0],
-                      [0, 0, 0],
-                      [0, 0, 0]]
+        self.board = [["", "", ""],
+                      ["", "", ""],
+                      ["", "", ""]]
         self.current_player = 1
         self.player1 = player1name, 1
         self.player2 = player2name, 2
 
-    def move(self, board: list[list[int]], row: int, column: int, player: int) -> None: 
+    def move(self, row: int, column: int, player: int) -> int: 
         """Making a move on the board."""
-        if player == 1: 
-            board[row - 1][column - 1] = 1
-        elif player == 2: 
-            board[row - 1][column - 1] = 2
+        if not self._check_move(row, column, player):
+            return -1 # move is invalid 
         else: 
-            return False
-        
-    def check_move(self, row: int, column: int, board: list[list[int]]) -> bool:
+            if player == 1: 
+                self.board[row - 1][column - 1] = "X"
+            else: 
+                self.board[row - 1][column - 1] = "O"
+            return 1 # move is valid 
+
+    def _check_move(self, row: int, column: int, player: int) -> bool:
         """Checking if the move is valid. Done by checking if the move is out or range then if a player has already 
         played on that location.
         """
@@ -36,31 +38,34 @@ class TicTacToe:
         if row > 3 or column > 3:   
             return False
         # checking if a player has already played on that square
-        elif board[row - 1][column - 1] == 1 or board[row - 1][column - 1] == 2:  
+        elif self.board[row - 1][column - 1] == "X" or self.board[row - 1][column - 1] == "O":  
             return False
-
-    def win_condition(self, board: list[list[int]]) -> bool:
-        """Checking if a player has won the game. First checking if there are 3 in a row or column. Then checking the diagonals."""
-        # checking rows and columns 
-        for i in range(3):
-            # checking if there are 3 in a row
-            if board[i][0] == board[i][1] == board[i][2] == 1 or \
-                board[i][0] == board[i][1] == board[i][2] == 2:   
-                return True
-            # checking if there are 3 in a column
-            if board[0][i] == board[1][i] == board[2][i] == 1 or \
-                board[0][i] == board[1][i] == board[2][i] == 2:  
-                return True 
-            
-        # checking diagonals
-        # checking top left to bottom right 
-        if board[0][0] == board[1][1] == board[2][2] == 1 or \
-            board[0][0] == board[1][1] == board[2][2] == 2: 
-            return True 
-        # checking top right to bottom left 
-        elif board[0][2] == board[1][1] == board[2][0] == 1 or \
-            board[0][2] == board[1][1] == board[2][0] == 2: 
+        elif player != 1 and player != 2: 
+            return False 
+        else: 
             return True
         
-        # if no player has won 
+    def win_condition(self) -> bool:
+        """Checking if a player has won the game. First checking if there are 3 in a row or column. Then checking the diagonals."""
+        # checking rows
+        for i in range(3):
+            if self.board[i][0] == self.board[i][1] == self.board[i][2] and self.board[i][0] in ["X", "O"]:
+                return True
+        # checking columns
+        for i in range(3):
+            if self.board[0][i] == self.board[1][i] == self.board[2][i] and self.board[0][i] in ["X", "O"]:
+                return True
+        # checking top left to bottom right diagonal
+        if self.board[0][0] == self.board[1][1] == self.board[2][2] and self.board[0][0] in ["X", "O"]:
+            return True
+        # checking top right to bottom left diagonal
+        if self.board[0][2] == self.board[1][1] == self.board[2][0] and self.board[0][2] in ["X", "O"]:
+            return True
         return False
+        
+    def switch_player(self) -> None: 
+        """Switching the current player."""
+        if self.current_player == 1: 
+            self.current_player = 2
+        else: 
+            self.current_player = 1
