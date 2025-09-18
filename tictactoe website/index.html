@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Tic Tac Toe</h1>
+        
+        <div class="player-setup" id="playerSetup">
+            <div>
+                <input type="text" id="player1Input" placeholder="Enter Player 1 name (X)" maxlength="20">
+            </div>
+            <div>
+                <input type="text" id="player2Input" placeholder="Enter Player 2 name (O)" maxlength="20">
+            </div>
+            <button class="start-btn" onclick="startGame()">Start Game</button>
+        </div>
+
+        <div class="game-area" id="gameArea">
+            <div class="status" id="status"></div>
+            
+            <div class="board" id="board">
+                <button class="cell" onclick="makeMove(0, 0)"></button>
+                <button class="cell" onclick="makeMove(0, 1)"></button>
+                <button class="cell" onclick="makeMove(0, 2)"></button>
+                <button class="cell" onclick="makeMove(1, 0)"></button>
+                <button class="cell" onclick="makeMove(1, 1)"></button>
+                <button class="cell" onclick="makeMove(1, 2)"></button>
+                <button class="cell" onclick="makeMove(2, 0)"></button>
+                <button class="cell" onclick="makeMove(2, 1)"></button>
+                <button class="cell" onclick="makeMove(2, 2)"></button>
+            </div>
+            
+            <button class="restart-btn" onclick="restartGame()">New Game</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
